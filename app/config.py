@@ -22,8 +22,10 @@ class Settings:
 
     # Google OAuth / Calendar / Gmail
     GOOGLE_CALENDAR_ID: str = os.getenv("GOOGLE_CALENDAR_ID", "primary")
-    GOOGLE_CLIENT_SECRET_FILE: str = os.getenv("GOOGLE_CLIENT_SECRET_FILE", "client_secret_1013808361902-1foh92c6pvte9b5kqpir2q48340hletm.apps.googleusercontent.com.json")
+    GOOGLE_CLIENT_SECRET_FILE: str = os.getenv("GOOGLE_CLIENT_SECRET_FILE", "client_secret.json")
     GOOGLE_TOKEN_FILE: str = os.getenv("GOOGLE_TOKEN_FILE", "token.json")
+    GOOGLE_CLIENT_SECRET_JSON: str = os.getenv("GOOGLE_CLIENT_SECRET_JSON", "")
+    GOOGLE_TOKEN_JSON: str = os.getenv("GOOGLE_TOKEN_JSON", "")
 
     # WhatsApp
     WHATSAPP_NUMBER: str = os.getenv("WHATSAPP_NUMBER", "5541988881186")

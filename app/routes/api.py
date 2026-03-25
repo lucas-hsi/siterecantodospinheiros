@@ -146,13 +146,19 @@ async def google_login():
 
 @router.get("/google/callback")
 async def google_callback(code: str):
-    """Recebe o código do Google e salva o token."""
+    """Recebe o código do Google e salva o token ou retorna o JSON para cópia manual."""
     redirect_uri = f"{settings.SITE_URL}/api/google/callback"
-    success = google_auth.save_credentials_from_code(code, redirect_uri)
+    success, token_json = google_auth.save_credentials_from_code(code, redirect_uri)
     
     if success:
+        import json
+        return {
+            "message": "Autenticação Google concluída com sucesso!",
+            "orientacao_vercel": "Se você está na Vercel, copie o bloco inteiro abaixo e cole na Variável de Ambiente: GOOGLE_TOKEN_JSON",
+            "token_json": json.loads(token_json) if token_json else None
+        }
         # Redireciona para a página de reservas com alerta de sucesso
-        return RedirectResponse(url="/reservas?auth=success")
+        # return RedirectResponse(url="/reservas?auth=success")
     else:
         raise HTTPException(status_code=400, detail="Falha ao autenticar com Google.")
 
