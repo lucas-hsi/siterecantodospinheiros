@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: chácara-recanto-pinheiros
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+    envVars:
+      - key: SITE_URL
+        value: https://www.chacararecantodospinheiros.com
+      - key: GOOGLE_CALENDAR_ID
+        value: primary
+      - key: WHATSAPP_NUMBER
+        value: 5541988881186
+      - key: SITE_NAME
+        value: "Chácara Recanto dos Pinheiros"
+      - key: DATABASE_URL
+        value: sqlite:///./recantos.db
+      - key: GOOGLE_CLIENT_SECRET_FILE
+        value: "/etc/secrets/client_secret.json"
+      - key: GOOGLE_TOKEN_FILE
+        value: "/etc/secrets/token.json"

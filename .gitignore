@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv
+venv/
+ENV/
+
+# Secrets & Database
+.env
+recantos.db
+token.json
+credentials.json
+client_secret_*.json
+
+# IDE
+.vscode/
+.idea/
+.DS_Store

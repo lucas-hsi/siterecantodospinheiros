@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Eventos — {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- ═══ Hero Interno ═══ -->
+<section class="hero" style="min-height: 50vh;">
+    <img src="/static/images/wedding.jpg" alt="Eventos" class="hero__bg">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+        <span class="hero__subtitle" data-aos="fade-down">Celebrações</span>
+        <h1 class="hero__title" data-aos="fade-up" style="font-size: var(--text-5xl);">Nossos Eventos</h1>
+        <p class="hero__description" data-aos="fade-up" data-aos-delay="200">
+            Para cada ocasião especial, o cenário perfeito.
+        </p>
+    </div>
+</section>
+
+<!-- ═══ Filtros ═══ -->
+<section class="section">
+    <div class="container">
+        <div class="section__header" data-aos="fade-up">
+            <span class="section__subtitle">Categorias</span>
+            <h2 class="section__title">Tipos de Eventos</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="filter-tabs" data-aos="fade-up">
+            <button class="filter-tab active" data-filter="all">Todos</button>
+            <button class="filter-tab" data-filter="social">Social</button>
+            <button class="filter-tab" data-filter="corporativo">Corporativo</button>
+            <button class="filter-tab" data-filter="religioso">Religioso</button>
+        </div>
+
+        <div class="grid grid--3" id="eventGrid">
+            <!-- Casamento -->
+            <div class="card" data-category="social" data-aos="fade-up" data-aos-delay="100">
+                <div class="card__image-wrapper">
+                    <img src="/static/images/wedding.jpg" alt="Casamento" class="card__image" loading="lazy">
+                    <span class="card__badge">⭐ Popular</span>
+                </div>
+                <div class="card__body">
+                    <h3 class="card__title">Casamentos</h3>
+                    <p class="card__text">O dia mais especial da sua vida merece o cenário mais bonito. Cerimônia e recepção em meio à natureza em Colombo-PR.</p>
+                    <div class="card__meta">
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Consulte
+                        </span>
+                        <span class="card__meta-item">⏱ Dia inteiro</span>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <strong style="color: var(--color-primary); font-size: var(--text-sm);">Incluso:</strong>
+                        <p class="card__text" style="margin-bottom: 0;">Ampla área externa, suítes, piscina, estacionamento e toda infraestrutura para seu evento.</p>
+                    </div>
+                    <a href="/reservas" class="btn btn--sm btn--primary" style="width: 100%;">Solicitar Orçamento</a>
+                </div>
+            </div>
+
+            <!-- Aniversário -->
+            <div class="card" data-category="social" data-aos="fade-up" data-aos-delay="200">
+                <div class="card__image-wrapper">
+                    <img src="/static/images/birthday.jpg" alt="Aniversário" class="card__image" loading="lazy">
+                </div>
+                <div class="card__body">
+                    <h3 class="card__title">Aniversários</h3>
+                    <p class="card__text">De festas infantis a comemorações de marcos especiais. Diversão garantida com piscina e churrasqueira.</p>
+                    <div class="card__meta">
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Consulte
+                        </span>
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1 3-1 4-1"></path><path d="M22 18c-1.5 0-2.5 1-4 1s-2.5-1-4-1-2.5 1-4 1-2.5-1-4-1-3 1-4 1"></path></svg>
+                            Piscina
+                        </span>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <strong style="color: var(--color-primary); font-size: var(--text-sm);">Incluso:</strong>
+                        <p class="card__text" style="margin-bottom: 0;">Piscina, campo de futebol, lago para pesca, suítes, estacionamento.</p>
+                    </div>
+                    <a href="/reservas" class="btn btn--sm btn--primary" style="width: 100%;">Solicitar Orçamento</a>
+                </div>
+            </div>
+
+            <!-- Corporativo -->
+            <div class="card" data-category="corporativo" data-aos="fade-up" data-aos-delay="300">
+                <div class="card__image-wrapper">
+                    <img src="/static/images/corporate.jpg" alt="Evento Corporativo" class="card__image" loading="lazy">
+                </div>
+                <div class="card__body">
+                    <h3 class="card__title">Corporativos</h3>
+                    <p class="card__text">Confraternizações, team building e eventos empresariais em ambiente inspirador e produtivo.</p>
+                    <div class="card__meta">
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Consulte
+                        </span>
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L8 6h8l-4-4z"></path><path d="M12 6v14"></path><path d="M2 18h20"></path></svg>
+                            Área ampla
+                        </span>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <strong style="color: var(--color-primary); font-size: var(--text-sm);">Incluso:</strong>
+                        <p class="card__text" style="margin-bottom: 0;">Área externa ampla, suítes para pernoite, piscina, campo de futebol, estacionamento.</p>
+                    </div>
+                    <a href="/reservas" class="btn btn--sm btn--primary" style="width: 100%;">Solicitar Orçamento</a>
+                </div>
+            </div>
+
+            <!-- Formatura -->
+            <div class="card" data-category="social" data-aos="fade-up" data-aos-delay="100">
+                <div class="card__image-wrapper">
+                    <img src="/static/images/venue-hall.jpg" alt="Formatura" class="card__image" loading="lazy">
+                </div>
+                <div class="card__body">
+                    <h3 class="card__title">Formaturas</h3>
+                    <p class="card__text">Celebre a conquista acadêmica com uma festa memorável no salão mais elegante da região.</p>
+                    <div class="card__meta">
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Consulte
+                        </span>
+                        <span class="card__meta-item">🎵 Área externa</span>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <strong style="color: var(--color-primary); font-size: var(--text-sm);">Incluso:</strong>
+                        <p class="card__text" style="margin-bottom: 0;">Área completa para a festa, suítes, piscina, campo de futebol, estacionamento.</p>
+                    </div>
+                    <a href="/reservas" class="btn btn--sm btn--primary" style="width: 100%;">Solicitar Orçamento</a>
+                </div>
+            </div>
+
+            <!-- Confraternização -->
+            <div class="card" data-category="social" data-aos="fade-up" data-aos-delay="200">
+                <div class="card__image-wrapper">
+                    <img src="/static/images/pool.jpg" alt="Confraternização" class="card__image" loading="lazy">
+                </div>
+                <div class="card__body">
+                    <h3 class="card__title">Confraternizações</h3>
+                    <p class="card__text">Reuniões familiares, festas de fim de ano e encontros entre amigos com toda diversão e conforto.</p>
+                    <div class="card__meta">
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Consulte
+                        </span>
+                        <span class="card__meta-item">🎣 Lago para pesca</span>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <strong style="color: var(--color-primary); font-size: var(--text-sm);">Incluso:</strong>
+                        <p class="card__text" style="margin-bottom: 0;">Área gourmet, piscina, suítes, campo de futebol, estacionamento.</p>
+                    </div>
+                    <a href="/reservas" class="btn btn--sm btn--primary" style="width: 100%;">Solicitar Orçamento</a>
+                </div>
+            </div>
+
+            <!-- Batizado/Religioso -->
+            <div class="card" data-category="religioso" data-aos="fade-up" data-aos-delay="300">
+                <div class="card__image-wrapper">
+                    <img src="/static/images/hero-bg.jpg" alt="Evento Religioso" class="card__image" loading="lazy">
+                </div>
+                <div class="card__body">
+                    <h3 class="card__title">Batizados e Celebrações</h3>
+                    <p class="card__text">Celebrações religiosas e espirituais em um ambiente de paz e serenidade, cercado pela natureza.</p>
+                    <div class="card__meta">
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Consulte
+                        </span>
+                        <span class="card__meta-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L8 6h8l-4-4z"></path><path d="M12 6v14"></path><path d="M2 18h20"></path></svg>
+                            Ao ar livre
+                        </span>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <strong style="color: var(--color-primary); font-size: var(--text-sm);">Incluso:</strong>
+                        <p class="card__text" style="margin-bottom: 0;">Área para cerimônia ao ar livre, piscina, suítes, estacionamento.</p>
+                    </div>
+                    <a href="/reservas" class="btn btn--sm btn--primary" style="width: 100%;">Solicitar Orçamento</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+    <div class="cta-section__bg">
+        <img src="/static/images/venue-hall.jpg" alt="Salão">
+    </div>
+    <div class="cta-section__overlay"></div>
+    <div class="container">
+        <div class="cta-section__content" data-aos="zoom-in">
+            <h2 class="cta-section__title">Não Encontrou Seu Tipo de Evento?</h2>
+            <p class="cta-section__text">Entre em contato conosco. Nosso espaço é versátil e nos adaptamos a qualquer tipo de celebração.</p>
+            <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+                <a href="/contato" class="btn btn--primary btn--lg">📞 Falar Conosco</a>
+                <a href="https://wa.me/{{ whatsapp_number }}" class="btn btn--whatsapp btn--lg" target="_blank">💬 WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+// Filtro de eventos por categoria
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.filter-tab');
+    const cards = document.querySelectorAll('#eventGrid .card');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const filter = tab.dataset.filter;
+
+            // Ativar tab
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filtrar cards
+            cards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.style.display = '';
+                    card.style.animation = 'fadeInUp 0.5s ease forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}Reservas — {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- ═══ Hero Interno ═══ -->
+<section class="hero" style="min-height: 50vh;">
+    <img src="/static/images/venue-hall.jpg" alt="Reservas" class="hero__bg">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+        <span class="hero__subtitle" data-aos="fade-down">Agenda</span>
+        <h1 class="hero__title" data-aos="fade-up" style="font-size: var(--text-5xl);">Faça Sua Reserva</h1>
+        <p class="hero__description" data-aos="fade-up" data-aos-delay="200">
+            Verifique a disponibilidade e garanta sua data especial.
+        </p>
+    </div>
+</section>
+
+<!-- ═══ Calendário + Formulário ═══ -->
+<section class="section">
+    <div class="container">
+        <div class="section__header" data-aos="fade-up">
+            <span class="section__subtitle">Disponibilidade</span>
+            <h2 class="section__title">Escolha Sua Data</h2>
+            <div class="divider"></div>
+            <p class="section__description">
+                Clique em uma data disponível (verde) para iniciar sua pré-reserva.
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); align-items: start;" id="reservaLayout">
+            <!-- Calendário -->
+            <div data-aos="fade-right">
+                <div class="calendar" id="calendar">
+                    <div class="calendar__header">
+                        <button class="calendar__nav-btn" id="calPrev" aria-label="Mês anterior">◀</button>
+                        <h3 class="calendar__title" id="calTitle">Março 2026</h3>
+                        <button class="calendar__nav-btn" id="calNext" aria-label="Próximo mês">▶</button>
+                    </div>
+                    <div class="calendar__weekdays">
+                        <span class="calendar__weekday">Dom</span>
+                        <span class="calendar__weekday">Seg</span>
+                        <span class="calendar__weekday">Ter</span>
+                        <span class="calendar__weekday">Qua</span>
+                        <span class="calendar__weekday">Qui</span>
+                        <span class="calendar__weekday">Sex</span>
+                        <span class="calendar__weekday">Sáb</span>
+                    </div>
+                    <div class="calendar__days" id="calDays">
+                        <!-- Preenchido via JS -->
+                    </div>
+                    <div class="calendar__legend">
+                        <div class="calendar__legend-item">
+                            <div class="calendar__legend-dot calendar__legend-dot--available"></div>
+                            <span>Disponível</span>
+                        </div>
+                        <div class="calendar__legend-item">
+                            <div class="calendar__legend-dot calendar__legend-dot--unavailable"></div>
+                            <span>Ocupado</span>
+                        </div>
+                        <div class="calendar__legend-item">
+                            <div class="calendar__legend-dot calendar__legend-dot--selected"></div>
+                            <span>Selecionado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Pré-Reserva -->
+            <div data-aos="fade-left">
+                <div style="background: var(--color-surface); border-radius: var(--radius-xl);
+                            padding: var(--space-8); box-shadow: var(--shadow-md);">
+                    <h3 style="font-family: var(--font-display); margin-bottom: var(--space-6);
+                              color: var(--color-primary); font-size: var(--text-2xl);">
+                        Pré-Reserva
+                    </h3>
+
+                    <form id="reservaForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="nome">Nome Completo *</label>
+                                <input type="text" class="form-input" id="nome" name="nome"
+                                       placeholder="Seu nome completo" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email *</label>
+                                <input type="email" class="form-input" id="email" name="email"
+                                       placeholder="seu@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="telefone">Telefone (WhatsApp) *</label>
+                                <input type="tel" class="form-input" id="telefone" name="telefone"
+                                       placeholder="(41) 99999-9999" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="data_evento">Data do Evento *</label>
+                                <input type="date" class="form-input" id="data_evento" name="data_evento"
+                                       required readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="tipo_evento">Tipo de Evento *</label>
+                                <select class="form-select" id="tipo_evento" name="tipo_evento" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="Casamento">Casamento</option>
+                                    <option value="Aniversário">Aniversário</option>
+                                    <option value="Corporativo">Evento Corporativo</option>
+                                    <option value="Formatura">Formatura</option>
+                                    <option value="Confraternização">Confraternização</option>
+                                    <option value="Batizado">Batizado / Religioso</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="num_convidados">Nº de Convidados *</label>
+                                <input type="number" class="form-input" id="num_convidados"
+                                       name="num_convidados" placeholder="Ex: 100" min="1" max="500" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="horario_inicio">Horário de Início *</label>
+                                <input type="time" class="form-input" id="horario_inicio"
+                                       name="horario_inicio" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="horario_fim">Horário de Término *</label>
+                                <input type="time" class="form-input" id="horario_fim"
+                                       name="horario_fim" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Serviços Adicionais</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="servicos" value="Sonorização"> Sonorização
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="servicos" value="Decoração"> Decoração
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="servicos" value="Buffet"> Buffet
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="servicos" value="Iluminação"> Iluminação
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="servicos" value="DJ"> DJ
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="servicos" value="Fotografia"> Fotografia
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="observacoes">Observações</label>
+                            <textarea class="form-textarea" id="observacoes" name="observacoes"
+                                      placeholder="Conte-nos mais sobre seu evento..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn--primary btn--lg" style="width: 100%;" id="submitReserva">
+                            📅 Enviar Pré-Reserva
+                        </button>
+
+                        <p style="text-align: center; margin-top: var(--space-4); font-size: var(--text-xs);
+                                  color: var(--color-text-muted);">
+                            * A pré-reserva será confirmada pela nossa equipe em até 24h.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="section section--alt">
+    <div class="container container--narrow">
+        <div class="section__header" data-aos="fade-up">
+            <span class="section__subtitle">Dúvidas</span>
+            <h2 class="section__title">Perguntas Frequentes</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="accordion" data-aos="fade-up">
+            <div class="accordion__item">
+                <button class="accordion__header">
+                    <span>Como funciona a reserva?</span>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        <p>Você faz a pré-reserva pelo nosso formulário. Em até 24 horas, nossa equipe entrará em contato para confirmar a disponibilidade, alinhar detalhes e enviar a proposta comercial. Após aceite e pagamento do sinal, sua reserva é confirmada.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion__item">
+                <button class="accordion__header">
+                    <span>Qual é a capacidade máxima do espaço?</span>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        <p><strong>Pernoite:</strong> Acomodações confortáveis para até 50 pessoas.<br>
+                           <strong>Interno:</strong> Nosso salão comporta até 70 pessoas com total conforto.<br>
+                           <strong>Externo:</strong> Área ampla para 300 pessoas ou mais, dependendo da configuração do seu evento.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion__item">
+                <button class="accordion__header">
+                    <span>Qual é a política de cancelamento?</span>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        <p>Cancelamentos feitos com mais de 60 dias de antecedência têm reembolso integral do sinal. Entre 30 e 60 dias, reembolso de 50%. Com menos de 30 dias, o sinal não é reembolsável. Reagendamentos são possíveis com pelo menos 30 dias de antecedência, sujeitos à disponibilidade.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion__item">
+                <button class="accordion__header">
+                    <span>Posso trazer meus próprios fornecedores?</span>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        <p>Sim! Você é livre para contratar seus próprios fornecedores de buffet, decoração, DJ, fotografia, etc. Também oferecemos indicações de parceiros de confiança se preferir.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion__item">
+                <button class="accordion__header">
+                    <span>O que está incluso no valor da locação?</span>
+                    <svg class="accordion__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion__body">
+                    <div class="accordion__body-inner">
+                        <p>A locação inclui: salão coberto, churrasqueira, piscina, área verde, cozinha industrial, vestiários, estacionamento, campo de futebol, lago para pesca e suítes. Serviços como decoração, buffet e sonorização são contratados à parte.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SEO Structured Data: FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Como funciona a reserva?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Você faz a pré-reserva pelo formulário do site. Em até 24h confirmamos a disponibilidade e enviamos a proposta. A reserva é garantida após o pagamento do sinal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual é a capacidade máxima do espaço?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pernoite para 50 pessoas, salão interno para 70 pessoas e área externa para mais de 300 pessoas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que está incluso no valor da locação?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Inclui salão, churrasqueira, piscina, área verde, cozinha industrial, vestiários, estacionamento, campo de futebol, lago e suítes."
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/calendar.js"></script>
+<script src="/static/js/forms.js"></script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Reserva Confirmada — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section style="min-height: 100vh; display: flex; align-items: center; justify-content: center;
+                padding: var(--space-16) var(--space-4);">
+    <div style="text-align: center; max-width: 600px;" data-aos="zoom-in">
+        <div style="font-size: 5rem; margin-bottom: var(--space-6);">🎉</div>
+        <h1 style="color: var(--color-primary); font-size: var(--text-4xl); margin-bottom: var(--space-4);">
+            Pré-Reserva Recebida!
+        </h1>
+        <p style="color: var(--color-text-light); font-size: var(--text-lg); line-height: 1.7;
+                  margin-bottom: var(--space-8);">
+            Obrigado pelo seu interesse no <strong>{{ site_name }}</strong>!<br>
+            Recebemos sua pré-reserva e nossa equipe entrará em contato em até
+            <strong>24 horas</strong> para confirmar todos os detalhes.
+        </p>
+
+        <div style="background: var(--color-bg-alt); border-radius: var(--radius-xl);
+                    padding: var(--space-8); margin-bottom: var(--space-8); text-align: left;">
+            <h3 style="color: var(--color-primary); margin-bottom: var(--space-4);
+                      font-size: var(--text-xl);">Próximos Passos:</h3>
+            <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                    <span style="background: var(--color-accent); color: var(--color-primary-dark);
+                                width: 32px; height: 32px; border-radius: var(--radius-full);
+                                display: flex; align-items: center; justify-content: center;
+                                font-weight: 700; font-size: var(--text-sm); flex-shrink: 0;">1</span>
+                    <div>
+                        <strong style="color: var(--color-text);">Confirmação por Email</strong>
+                        <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">
+                            Verifique seu email para a confirmação da pré-reserva.
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                    <span style="background: var(--color-accent); color: var(--color-primary-dark);
+                                width: 32px; height: 32px; border-radius: var(--radius-full);
+                                display: flex; align-items: center; justify-content: center;
+                                font-weight: 700; font-size: var(--text-sm); flex-shrink: 0;">2</span>
+                    <div>
+                        <strong style="color: var(--color-text);">Contato da Equipe</strong>
+                        <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">
+                            Nossa equipe ligará ou enviará mensagem via WhatsApp para alinhar detalhes.
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                    <span style="background: var(--color-accent); color: var(--color-primary-dark);
+                                width: 32px; height: 32px; border-radius: var(--radius-full);
+                                display: flex; align-items: center; justify-content: center;
+                                font-weight: 700; font-size: var(--text-sm); flex-shrink: 0;">3</span>
+                    <div>
+                        <strong style="color: var(--color-text);">Proposta e Confirmação</strong>
+                        <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">
+                            Enviaremos a proposta comercial e, após aceite, sua reserva estará confirmada!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+            <a href="/" class="btn btn--secondary">🏠 Voltar ao Início</a>
+            <a href="https://wa.me/{{ whatsapp_number }}" class="btn btn--whatsapp" target="_blank">
+                💬 Falar no WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

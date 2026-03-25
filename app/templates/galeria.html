@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Galeria — {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- ═══ Hero Interno ═══ -->
+<section class="hero" style="min-height: 50vh;">
+    <img src="/static/images/pool.jpg" alt="Galeria" class="hero__bg">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+        <span class="hero__subtitle" data-aos="fade-down">Imagens</span>
+        <h1 class="hero__title" data-aos="fade-up" style="font-size: var(--text-5xl);">Galeria de Fotos</h1>
+        <p class="hero__description" data-aos="fade-up" data-aos-delay="200">
+            Cada imagem conta uma história. Descubra a beleza do nosso espaço.
+        </p>
+    </div>
+</section>
+
+<!-- ═══ Galeria ═══ -->
+<section class="section">
+    <div class="container">
+        <div class="filter-tabs" data-aos="fade-up">
+            <button class="filter-tab active" data-filter="all">Todas</button>
+            <button class="filter-tab" data-filter="estrutura">Estrutura</button>
+            <button class="filter-tab" data-filter="casamento">Casamentos</button>
+            <button class="filter-tab" data-filter="aniversario">Aniversários</button>
+            <button class="filter-tab" data-filter="corporativo">Corporativo</button>
+            <button class="filter-tab" data-filter="externa">Área Externa</button>
+        </div>
+
+        <div class="masonry-grid" id="galleryGrid">
+            <!-- Estrutura -->
+            <div class="masonry-item" data-category="estrutura" data-lightbox="/static/images/venue-hall.jpg">
+                <img src="/static/images/venue-hall.jpg" alt="Salão de eventos" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="casamento" data-lightbox="/static/images/wedding.jpg">
+                <img src="/static/images/wedding.jpg" alt="Casamento ao ar livre" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="externa" data-lightbox="/static/images/pool.jpg">
+                <img src="/static/images/pool.jpg" alt="Área da piscina" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="corporativo" data-lightbox="/static/images/corporate.jpg">
+                <img src="/static/images/corporate.jpg" alt="Evento corporativo" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="aniversario" data-lightbox="/static/images/birthday.jpg">
+                <img src="/static/images/birthday.jpg" alt="Festa de aniversário" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="externa" data-lightbox="/static/images/hero-bg.jpg">
+                <img src="/static/images/hero-bg.jpg" alt="Vista geral" loading="lazy">
+            </div>
+            <!-- Repetições para efeito visual -->
+            <div class="masonry-item" data-category="estrutura" data-lightbox="/static/images/venue-hall.jpg">
+                <img src="/static/images/venue-hall.jpg" alt="Salão decorado" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="casamento" data-lightbox="/static/images/wedding.jpg">
+                <img src="/static/images/wedding.jpg" alt="Cerimônia" loading="lazy">
+            </div>
+            <div class="masonry-item" data-category="externa" data-lightbox="/static/images/pool.jpg">
+                <img src="/static/images/pool.jpg" alt="Piscina ao entardecer" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+    <div class="cta-section__bg">
+        <img src="/static/images/wedding.jpg" alt="Evento">
+    </div>
+    <div class="cta-section__overlay"></div>
+    <div class="container">
+        <div class="cta-section__content" data-aos="zoom-in">
+            <h2 class="cta-section__title">Gostou do que Viu?</h2>
+            <p class="cta-section__text">Venha conhecer pessoalmente e se encantar ainda mais.</p>
+            <a href="/reservas" class="btn btn--primary btn--lg">📅 Verificar Disponibilidade</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/gallery.js"></script>
+{% endblock %}
