@@ -33,9 +33,9 @@ class Settings:
     SITE_URL: str = os.getenv("SITE_URL", "https://www.chacararecantodospinheiros.com")
 
     # Paths
-    BASE_DIR: Path = Path(__file__).resolve().parent
-    TEMPLATES_DIR: Path = BASE_DIR / "templates"
-    STATIC_DIR: Path = BASE_DIR / "static"
+    BASE_DIR: Path = Path(__file__).resolve().parent.parent
+    TEMPLATES_DIR: Path = BASE_DIR / "app" / "templates"
+    STATIC_DIR: Path = BASE_DIR / "app" / "static"
     IMAGES_DIR: Path = STATIC_DIR / "images"
 
 
