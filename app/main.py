@@ -27,8 +27,11 @@ async def lifespan(app: FastAPI):
     from app.models import Reservation, ContactMessage  # noqa: F401
 
     logger.info("Criando tabelas do banco de dados...")
-    Base.metadata.create_all(bind=engine)
-    logger.info(f"Aplicação {settings.SITE_NAME} iniciada com sucesso!")
+    try:
+        Base.metadata.create_all(bind=engine)
+        logger.info(f"Aplicação {settings.SITE_NAME} iniciada com sucesso!")
+    except Exception as e:
+        logger.warning(f"Tabelas não criadas (ambiente read-only provável): {e}")
 
     yield
 
@@ -53,7 +56,10 @@ app.add_middleware(
 )
 
 # Arquivos estáticos
-app.mount("/static", StaticFiles(directory=str(settings.STATIC_DIR)), name="static")
+if settings.STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(settings.STATIC_DIR)), name="static")
+else:
+    logger.warning("Pasta /static não encontrada. FastAPI rodará em modo API only.")
 
 # Rotas
 app.include_router(api.router)
