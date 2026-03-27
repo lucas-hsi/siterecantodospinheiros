@@ -133,17 +133,5 @@ def create_calendar_event(
 
 
 def _get_mock_unavailable_dates(year: int, month: int) -> list[str]:
-    """Retorna datas mock de indisponibilidade para demonstração."""
-    import random
-    random.seed(year * 100 + month)  # Seed determinístico
-    unavailable = []
-    days_in_month = 28 if month == 2 else 30 if month in (4, 6, 9, 11) else 31
-
-    # Gera 5-8 datas aleatórias como ocupadas
-    num_busy = random.randint(5, 8)
-    busy_days = random.sample(range(1, days_in_month + 1), min(num_busy, days_in_month))
-
-    for day in sorted(busy_days):
-        unavailable.append(f"{year}-{month:02d}-{day:02d}")
-
-    return unavailable
+    """Retorna lista vazia em vez de dados mock para evitar confusão no front-end."""
+    return []
