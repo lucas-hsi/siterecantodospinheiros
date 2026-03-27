@@ -12,8 +12,10 @@ from app.database import get_db
 from app.models.contact import ContactMessage
 from app.services import calendar_service, reservation_service, email_service
 
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from app.services.google_auth_service import google_auth
+from app.services.pdf_service import pdf_service
+import urllib.parse
 from app.config import settings
 
 logger = logging.getLogger(__name__)
@@ -79,9 +81,6 @@ async def criar_reserva(data: ReservationCreate, db: Session = Depends(get_db)):
         )
 
         # Gerar Token e Link WhatsApp
-        from app.services.pdf_service import pdf_service
-        import urllib.parse
-        
         token = pdf_service.generate_token(data.model_dump())
         pdf_url = f"{settings.SITE_URL}/api/reservas/pdf?token={token}"
         
@@ -92,12 +91,12 @@ async def criar_reserva(data: ReservationCreate, db: Session = Depends(get_db)):
         )
         whatsapp_link = f"https://wa.me/{settings.WHATSAPP_NUMBER}?text={urllib.parse.quote(texto_whats)}"
 
-        return ReservationResponse(
-            id=reservation.id,
-            status="pendente",
-            message="Pré-reserva criada! Você será redirecionado para o WhatsApp com seu PDF.",
-            whatsapp_link=whatsapp_link
-        )
+        return {
+            "id": reservation.id,
+            "status": "pendente",
+            "message": "Pré-reserva criada! Você será redirecionado para o WhatsApp com seu PDF.",
+            "whatsapp_link": whatsapp_link
+        }
 
     except HTTPException:
         raise
@@ -110,8 +109,6 @@ async def criar_reserva(data: ReservationCreate, db: Session = Depends(get_db)):
 async def baixar_pdf_reserva(token: str):
     """Gera e retorna a ficha PDF de pré-reserva com base no token decodificado em memória."""
     try:
-        from app.services.pdf_service import pdf_service
-        from fastapi.responses import StreamingResponse
         pdf_buffer = pdf_service.generate_pdf_from_token(token)
         return StreamingResponse(
             pdf_buffer,
@@ -161,10 +158,10 @@ async def enviar_contato(data: ContactCreate, db: Session = Depends(get_db)):
             mensagem=data.mensagem,
         )
 
-        return ContactResponse(
-            success=True,
-            message="Mensagem enviada com sucesso! Retornaremos em breve.",
-        )
+        return {
+            "success": True,
+            "message": "Mensagem enviada com sucesso! Retornaremos em breve."
+        }
 
     except Exception as e:
         logger.error(f"Erro ao enviar contato: {e}")
