@@ -45,6 +45,7 @@ class ReservationResponse(BaseModel):
     id: int
     status: str
     message: str
+    whatsapp_link: str | None = None
 
 
 class ContactResponse(BaseModel):
@@ -77,10 +78,25 @@ async def criar_reserva(data: ReservationCreate, db: Session = Depends(get_db)):
             observacoes=data.observacoes,
         )
 
+        # Gerar Token e Link WhatsApp
+        from app.services.pdf_service import pdf_service
+        import urllib.parse
+        
+        token = pdf_service.generate_token(data.model_dump())
+        pdf_url = f"{settings.SITE_URL}/api/reservas/pdf?token={token}"
+        
+        texto_whats = (
+            "Olá! Acabei de fazer uma pré-reserva oficial no site. "
+            "Abaixo está o link da Ficha Cadastral em PDF estruturada pelo sistema com todos os detalhes do evento:\n\n"
+            f"📄 {pdf_url}"
+        )
+        whatsapp_link = f"https://wa.me/{settings.WHATSAPP_NUMBER}?text={urllib.parse.quote(texto_whats)}"
+
         return ReservationResponse(
             id=reservation.id,
             status="pendente",
-            message="Pré-reserva criada com sucesso! Entraremos em contato em breve.",
+            message="Pré-reserva criada! Você será redirecionado para o WhatsApp com seu PDF.",
+            whatsapp_link=whatsapp_link
         )
 
     except HTTPException:
@@ -88,6 +104,23 @@ async def criar_reserva(data: ReservationCreate, db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"Erro ao criar reserva: {e}")
         raise HTTPException(status_code=500, detail="Erro interno ao processar reserva.")
+
+
+@router.get("/reservas/pdf")
+async def baixar_pdf_reserva(token: str):
+    """Gera e retorna a ficha PDF de pré-reserva com base no token decodificado em memória."""
+    try:
+        from app.services.pdf_service import pdf_service
+        from fastapi.responses import StreamingResponse
+        pdf_buffer = pdf_service.generate_pdf_from_token(token)
+        return StreamingResponse(
+            pdf_buffer,
+            media_type="application/pdf",
+            headers={"Content-Disposition": "inline; filename=Pre_Reserva_Recanto_dos_Pinheiros.pdf"}
+        )
+    except Exception as e:
+        logger.error(f"Erro ao gerar PDF da reserva: {e}")
+        raise HTTPException(status_code=400, detail="Token de reserva inválido, expirado ou corrompido.")
 
 
 @router.get("/disponibilidade")

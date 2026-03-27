@@ -85,10 +85,14 @@ function initReservaForm() {
             const data = await response.json();
 
             if (response.ok) {
-                showToast('Pré-reserva enviada com sucesso!', 'success');
-                // Redirect to confirmation page
+                showToast('Pré-reserva pronta! Redirecionando para o WhatsApp...', 'success');
+                // Redirect to WhatsApp Flow
                 setTimeout(() => {
-                    window.location.href = '/confirmacao';
+                    if (data.whatsapp_link) {
+                        window.location.href = data.whatsapp_link;
+                    } else {
+                        window.location.href = '/';
+                    }
                 }, 1500);
             } else {
                 showToast(data.detail || 'Erro ao enviar reserva.', 'error');
