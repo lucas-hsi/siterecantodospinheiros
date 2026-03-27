@@ -12,6 +12,7 @@ recantos.db
 token.json
 credentials.json
 client_secret_*.json
+client_secret.json
 
 # IDE
 .vscode/

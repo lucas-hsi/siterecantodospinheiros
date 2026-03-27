@@ -172,10 +172,14 @@ async def enviar_contato(data: ContactCreate, db: Session = Depends(get_db)):
 @router.get("/google/auth")
 async def google_login():
     """Inicia o fluxo de autenticação do Google."""
-    redirect_uri = f"{settings.SITE_URL}/api/google/callback"
-    flow = google_auth.get_auth_flow(redirect_uri)
-    auth_url, _ = flow.authorization_url(prompt='consent', access_type='offline')
-    return RedirectResponse(auth_url)
+    try:
+        redirect_uri = f"{settings.SITE_URL}/api/google/callback"
+        flow = google_auth.get_auth_flow(redirect_uri)
+        auth_url, _ = flow.authorization_url(prompt='consent', access_type='offline')
+        return RedirectResponse(auth_url)
+    except Exception as e:
+        logger.error(f"Erro ao iniciar login Google: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro ao conectar Google API. Verifique o arquivo client_secret.json ou as variáveis de ambiente. Erro: {e}")
 
 
 @router.get("/google/callback")
