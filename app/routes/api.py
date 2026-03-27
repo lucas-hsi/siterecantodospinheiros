@@ -139,18 +139,22 @@ async def verificar_disponibilidade(year: int, month: int):
 async def enviar_contato(data: ContactCreate, db: Session = Depends(get_db)):
     """Recebe mensagem de contato e envia notificação ao admin."""
     try:
-        # Persistir no banco
+        # Persistir no banco (Fail-safe)
         message = ContactMessage(
             nome=data.nome,
             email=data.email,
             mensagem=data.mensagem,
         )
-        db.add(message)
-        db.commit()
+        try:
+            db.add(message)
+            db.commit()
+        except Exception as e:
+            logger.warning(f"Erro ao salvar contato no DB (read-only): {e}")
+            db.rollback()
 
         logger.info(f"Mensagem de contato recebida de {data.nome} ({data.email})")
 
-        # Notificar admin
+        # Notificar admin (único meio persistente que sempre funciona)
         await email_service.send_contact_notification(
             nome=data.nome,
             email=data.email,
@@ -163,8 +167,8 @@ async def enviar_contato(data: ContactCreate, db: Session = Depends(get_db)):
         )
 
     except Exception as e:
-        logger.error(f"Erro ao processar contato: {e}")
-        raise HTTPException(status_code=500, detail="Erro ao enviar mensagem.")
+        logger.error(f"Erro ao enviar contato: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao enviar mensagem.")
 
 # ─── Google OAuth ───────────────────────────────────────────────
 

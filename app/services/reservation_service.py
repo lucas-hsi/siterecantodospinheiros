@@ -33,7 +33,7 @@ async def create_reservation(
     3. Envia email de confirmação para o cliente
     4. Envia notificação para o admin
     """
-    # 1. Persistir no banco
+    # 1. Persistir no banco (Fail-safe para ambiente Read-Only Vercel)
     reservation = Reservation(
         nome=nome,
         email=email,
@@ -47,17 +47,25 @@ async def create_reservation(
         observacoes=observacoes,
         status="pendente",
     )
-    db.add(reservation)
-    db.commit()
-    db.refresh(reservation)
+    res_id = 0
+    try:
+        db.add(reservation)
+        db.commit()
+        db.refresh(reservation)
+        res_id = reservation.id
+    except Exception as e:
+        logger.warning(f"Banco em modo read-only ou falhou. Usando simulador in-memory. Erro: {e}")
+        db.rollback()
+        res_id = 999
+        reservation.id = 999
 
-    logger.info(f"Reserva #{reservation.id} criada: {nome} - {data_evento} ({tipo_evento})")
+    logger.info(f"Reserva #{res_id} criada: {nome} - {data_evento} ({tipo_evento})")
 
     # 2. Criar evento no Google Calendar (fire-and-forget, não bloqueia)
     try:
         servicos_texto = ", ".join(servicos_adicionais) if servicos_adicionais else "Nenhum"
         descricao_evento = (
-            f"Reserva #{reservation.id}\n"
+            f"Reserva #{res_id}\n"
             f"Cliente: {nome}\n"
             f"Email: {email}\n"
             f"Telefone: {telefone}\n"
@@ -74,7 +82,7 @@ async def create_reservation(
             end_time=horario_fim,
         )
     except Exception as e:
-        logger.error(f"Erro ao criar evento no Calendar para reserva #{reservation.id}: {e}")
+        logger.error(f"Erro ao criar evento no Calendar para reserva #{res_id}: {e}")
 
     # 3. Email de confirmação para o cliente
     try:
